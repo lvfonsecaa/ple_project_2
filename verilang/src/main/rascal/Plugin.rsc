@@ -1,11 +1,8 @@
 module Plugin
 
-import IO;
 import ParseTree;
 import util::Reflective;
-import util::IDEServices;
 import util::LanguageServer;
-import Relation;
 import Syntax;
 
 PathConfig pcfg = getProjectPathConfig(|project://verilang|);
@@ -17,5 +14,5 @@ set[LanguageService] contribs() = {
 };
 
 void main() {
-  registerLanguage(verilangLang);
+  registerLanguage(language(pcfg, "verilang", {"vlg"}, "Plugin", "contribs"));
 }
