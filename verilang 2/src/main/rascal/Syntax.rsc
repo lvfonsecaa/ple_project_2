@@ -18,11 +18,11 @@ syntax ModuleBody = moduleBodyDef: Definition*;
 
 syntax Definition = definitionDef: SpaceDef | OperatorDef | VarDef|RuleDef|ExpressionDef;
 
-syntax SpaceDef = spaceDefDef: "defspace" Identifier ("\<" Identifier)? "end";
+//syntax SpaceDef = spaceDefDef: "defspace" Identifier ("<" Identifier)? "end";
 
 syntax OperatorDef = operatorDefDef: "defoperator" Identifier ":" OperatorSignature AttributeList? "end";
 
-syntax OperatorSignature = operatorSignatureDef: Identifier ("-\>" Identifier)*;
+//syntax OperatorSignature = operatorSignatureDef: Identifier ("->" Identifier)*;
 
 syntax AttributeList = attributeListDef : "[" Attribute+ "]";
 
@@ -34,7 +34,7 @@ syntax VarList = varListDef : VarDecl ("," VarDecl)* ;
 
 syntax VarDecl = varDeclDef : Identifier ":" Identifier;
 
-syntax RuleDef = ruleDefDef : "defrule" OperatorApplication "-\>" OperatorApplication "end";
+//syntax RuleDef = ruleDefDef : "defrule" OperatorApplication "->" OperatorApplication "end";
 
 syntax OperatorApplication = operatorApplicationDef : PrefixApplication | InfixApplication;
 
@@ -54,7 +54,7 @@ syntax Expression = expressionDef : QuantifiedExpression|EquivalenceExpression;
 
 syntax EquivalenceExpression = equivalenceExpressionDef : ImplicationExpression|ImplicationExpression "=" EquivalenceExpression;
 
-syntax ImplicationExpression = implicationExpressionDef : OrExpression|OrExpression "=\>" ImplicationExpression;
+//syntax ImplicationExpression = implicationExpressionDef : OrExpression|OrExpression "=>" ImplicationExpression;
 
 syntax OrExpression = orExpressionDef : AndExpression|AndExpression "or" OrExpression;
 
@@ -64,7 +64,7 @@ syntax ComparisonExpression = comparisonExpressionDef : PrimaryExpression|Primar
 
 syntax PrimaryExpression = primaryExpressionDef : OperatorApplication|Identifier|"(" Expression ")";
 
-syntax ComparisonOp = eq:"="|lt:"\<"|gt:"\>"|le:"\<="|ge:"\>="|ne:"\<\>";
+//syntax ComparisonOp = eq:"="|lt:"<"|gt:">"|le:"<="|ge:">="|ne:"<>";
 
 syntax QuantifiedExpression = quantifiedExpressionDe : Quantifier Identifier "in" Identifier "." Expression;
 
