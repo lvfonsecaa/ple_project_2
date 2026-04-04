@@ -1,0 +1,4 @@
+Manifest-Version: 0.0.1
+Project-Name: ple_project_2
+Source: verilang/src/main/rascal
+Require-Libraries: |lib://dsl-project|
