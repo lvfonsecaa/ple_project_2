@@ -10,22 +10,19 @@ lexical WS
 start syntax Module
   = moduleDef: "defmodule" Identifier ImportList ModuleBody "end";
 
-
 syntax ImportList = importDef: Import*;
 
 syntax Import = importDef: "using" Identifier;
 
 syntax ModuleBody = moduleBodyDef: Definition*;
 
-syntax Definition = definitionDef: SpaceDef|OperatorDef|VarDef|RuleDef|ExpressionDef;
+syntax Definition = definitionDef: SpaceDef | OperatorDef | VarDef|RuleDef|ExpressionDef;
 
-syntax SpaceDef = spaceDefDef: "defspace" Identifier ("<" Identifier)? "end";
+//syntax SpaceDef = spaceDefDef: "defspace" Identifier ("<" Identifier)? "end";
 
 syntax OperatorDef = operatorDefDef: "defoperator" Identifier ":" OperatorSignature AttributeList? "end";
 
-syntax OperatorSignature = operatorSignatureDef: Identifier (SignatureArrow Identifier)*;
-
-syntax SignatureArrow = signatureArrowDef: "->";
+//syntax OperatorSignature = operatorSignatureDef: Identifier ("->" Identifier)*;
 
 syntax AttributeList = attributeListDef : "[" Attribute+ "]";
 
@@ -37,9 +34,7 @@ syntax VarList = varListDef : VarDecl ("," VarDecl)* ;
 
 syntax VarDecl = varDeclDef : Identifier ":" Identifier;
 
-syntax RuleDef = ruleDefDef : "defrule" OperatorApplication RuleArrow OperatorApplication "end";
-
-syntax RuleArrow = ruleArrowDef : "->";
+//syntax RuleDef = ruleDefDef : "defrule" OperatorApplication "->" OperatorApplication "end";
 
 syntax OperatorApplication = operatorApplicationDef : PrefixApplication | InfixApplication;
 
@@ -57,13 +52,9 @@ syntax ExpressionDef = expressionDefDef : "defexpression" Expression "end";
 
 syntax Expression = expressionDef : QuantifiedExpression|EquivalenceExpression;
 
-syntax EquivalenceExpression = equivalenceExpressionDef : ImplicationExpression|ImplicationExpression EqualityOp EquivalenceExpression;
+syntax EquivalenceExpression = equivalenceExpressionDef : ImplicationExpression|ImplicationExpression "=" EquivalenceExpression;
 
-syntax EqualityOp = equalityOpDef : "=";
-
-syntax ImplicationExpression = implicationExpressionDef : OrExpression|OrExpression ImplicationOp ImplicationExpression;
-
-syntax ImplicationOp = implicationOpDef : "=>";
+//syntax ImplicationExpression = implicationExpressionDef : OrExpression|OrExpression "=>" ImplicationExpression;
 
 syntax OrExpression = orExpressionDef : AndExpression|AndExpression "or" OrExpression;
 
@@ -73,11 +64,11 @@ syntax ComparisonExpression = comparisonExpressionDef : PrimaryExpression|Primar
 
 syntax PrimaryExpression = primaryExpressionDef : OperatorApplication|Identifier|"(" Expression ")";
 
-syntax ComparisonOp = le:"<="| ge:">="| ne:"<>"| lt:"<"| gt:">";
+//syntax ComparisonOp = eq:"="|lt:"<"|gt:">"|le:"<="|ge:">="|ne:"<>";
 
 syntax QuantifiedExpression = quantifiedExpressionDe : Quantifier Identifier "in" Identifier "." Expression;
 
-syntax Quantifier = quantifierDef : "forall" | "exists";
+syntax Quantifier = quantifierDef : "forall"|"exists";
 
 syntax IntLiteral = intLiteral : Number Number*;
 
@@ -87,27 +78,4 @@ lexical Number = [0-9];
 
 lexical CharLiteral = [a-z];
 
-lexical Identifier = CharLiteral (CharLiteral | Number | "-")* \ Reserved;
-
-keyword Reserved
-  = "defmodule"
-  | "using"
-  | "defspace"
-  | "defoperator"
-  | "defvar"
-  | "defrule"
-  | "defexpression"
-  | "end"
-  | "in"
-  | "forall"
-  | "exists"
-  | "or"
-  | "and"
-  | "="
-  | "->"
-  | "=>"
-  | "<="
-  | ">="
-  | "<>"
-  | "<"
-  | ">";
+lexical Identifier = CharLiteral (CharLiteral|Number|"-")*;
