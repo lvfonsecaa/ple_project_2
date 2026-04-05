@@ -114,4 +114,19 @@ lexical Number = [0-9];
 lexical CharLiteral = [a-zA-Z∅];
 
 lexical Identifier
-  = [a-zA-Z∅] [a-zA-Z0-9\-∅]* !>> [a-zA-Z0-9\-∅];
+  = ([a-zA-Z∅] [a-zA-Z0-9\-∅]* !>> [a-zA-Z0-9\-∅]) \ Reserved;
+
+keyword Reserved
+  = "defmodule"
+  | "using"
+  | "defspace"
+  | "defoperator"
+  | "defvar"
+  | "defrule"
+  | "defexpression"
+  | "end"
+  | "in"
+  | "forall"
+  | "exists"
+  | "or"
+  | "and";
