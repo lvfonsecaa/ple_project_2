@@ -26,9 +26,11 @@ syntax Definition
 syntax SpaceDef
   = spaceDefDef: "defspace" Identifier ("\<" Identifier)? "end";
 
+syntax Type = typeDef: Identifier;
+
 syntax OperatorDef = operatorDefDef: "defoperator" Identifier ":" OperatorSignature AttributeList? "end";
 
-syntax OperatorSignature = operatorSignatureDef: Identifier ("-\>" Identifier)*;
+syntax OperatorSignature = operatorSignatureDef: Type ("-\>" Type)*;
 
 syntax AttributeList = attributeListDef : "[" Attribute+ "]";
 
@@ -40,7 +42,7 @@ syntax VarDef = varDefDef : "defvar" VarList "end";
 
 syntax VarList = varListDef : VarDecl ("," VarDecl)* ;
 
-syntax VarDecl = varDeclDef : Identifier ":" Identifier;
+syntax VarDecl = varDeclDef : Identifier ":" Type;
 
 syntax RuleDef = ruleDefDef : "defrule" OperatorApplication "-\>" OperatorApplication "end";
 
@@ -93,7 +95,7 @@ syntax PrimaryExpression
 
 syntax ComparisonOp = eq:"="|lt:"\<"|gt:"\>"|le:"\<="|ge:"\>="|ne:"\<\>";
 
-syntax QuantifiedExpression = quantifiedExpressionDe : Quantifier Identifier "in" Identifier "." Expression;
+syntax QuantifiedExpression = quantifiedExpressionDe : Quantifier Identifier "in" Type "." Expression;
 
 syntax Quantifier
   = forallQ: "forall"
