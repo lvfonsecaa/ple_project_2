@@ -28,7 +28,7 @@ data OperatorSignature
 
 data Attribute
   = attrName(str name)
-  | attrPair(str key, str value);
+  | attrPair(str key, str val);
 
 data VarDef
   = varDefDef(list[VarDecl] decls);
