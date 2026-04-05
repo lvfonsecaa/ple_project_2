@@ -16,9 +16,15 @@ syntax Import = importDef: "using" Identifier;
 
 syntax ModuleBody = moduleBodyDef: Definition*;
 
-syntax Definition = definitionDef: SpaceDef | OperatorDef | VarDef|RuleDef|ExpressionDef;
+syntax Definition
+  = defSpace: SpaceDef
+  | defOperator: OperatorDef
+  | defVar: VarDef
+  | defRule: RuleDef
+  | defExpression: ExpressionDef;
 
-syntax SpaceDef = spaceDefDef: "defspace" Identifier ("\<" Identifier)? "end";
+syntax SpaceDef
+  = spaceDefDef: "defspace" Identifier ("\<" Identifier)? "end";
 
 syntax OperatorDef = operatorDefDef: "defoperator" Identifier ":" OperatorSignature AttributeList? "end";
 
@@ -26,7 +32,9 @@ syntax OperatorSignature = operatorSignatureDef: Identifier ("-\>" Identifier)*;
 
 syntax AttributeList = attributeListDef : "[" Attribute+ "]";
 
-syntax Attribute = attributeDef : Identifier | Identifier ":" Identifier;
+syntax Attribute
+  = attrName: Identifier
+  | attrPair: Identifier ":" Identifier;
 
 syntax VarDef = varDefDef : "defvar" VarList "end";
 
@@ -36,7 +44,9 @@ syntax VarDecl = varDeclDef : Identifier ":" Identifier;
 
 syntax RuleDef = ruleDefDef : "defrule" OperatorApplication "-\>" OperatorApplication "end";
 
-syntax OperatorApplication = operatorApplicationDef : PrefixApplication | InfixApplication;
+syntax OperatorApplication
+  = prefixOpApp: PrefixApplication
+  | infixOpApp: InfixApplication;
 
 syntax PrefixApplication = prefixApplicationDef : "(" Identifier ArgumentList ")";
 
@@ -44,31 +54,50 @@ syntax ArgumentList = argumentListDef : Expression+;
 
 syntax InfixApplication = infixApplicationDef : SimpleTerm InfixOperator SimpleTerm;
 
-syntax SimpleTerm = simpleTermDef : Identifier | "(" Expression ")"; 
+syntax SimpleTerm
+  = simpleIdentifier: Identifier
+  | groupedSimpleTerm: "(" Expression ")"; 
 
 syntax InfixOperator = infixOperatorDef : Identifier|"in";
 
 syntax ExpressionDef = expressionDefDef : "defexpression" Expression "end";
 
-syntax Expression = expressionDef : QuantifiedExpression|EquivalenceExpression;
+syntax Expression
+  = quantifiedExpr: QuantifiedExpression
+  | equivalenceExpr: EquivalenceExpression;
 
-syntax EquivalenceExpression = equivalenceExpressionDef : ImplicationExpression|ImplicationExpression "=" EquivalenceExpression;
+syntax EquivalenceExpression
+  = implicationOnly: ImplicationExpression
+  | equivalenceChain: ImplicationExpression "===" EquivalenceExpression;
 
-syntax ImplicationExpression = implicationExpressionDef : OrExpression|OrExpression "=\>" ImplicationExpression;
+syntax ImplicationExpression
+  = orOnly: OrExpression
+  | implicationChain: OrExpression "=\>" ImplicationExpression;
 
-syntax OrExpression = orExpressionDef : AndExpression|AndExpression "or" OrExpression;
+syntax OrExpression
+  = andOnly: AndExpression
+  | orChain: AndExpression "or" OrExpression;
 
-syntax AndExpression = andExpressionDef : ComparisonExpression|ComparisonExpression "and" AndExpression;
+syntax AndExpression
+  = comparisonOnly: ComparisonExpression
+  | andChain: ComparisonExpression "and" AndExpression;
 
-syntax ComparisonExpression = comparisonExpressionDef : PrimaryExpression|PrimaryExpression ComparisonOp PrimaryExpression;
+syntax ComparisonExpression
+  = primaryOnly: PrimaryExpression
+  | comparisonExpr: PrimaryExpression ComparisonOp PrimaryExpression;
 
-syntax PrimaryExpression = primaryExpressionDef : OperatorApplication|Identifier|"(" Expression ")";
+syntax PrimaryExpression
+  = operatorPrimary: OperatorApplication
+  | identifierPrimary: Identifier
+  | groupedPrimary: "(" Expression ")";
 
 syntax ComparisonOp = eq:"="|lt:"\<"|gt:"\>"|le:"\<="|ge:"\>="|ne:"\<\>";
 
 syntax QuantifiedExpression = quantifiedExpressionDe : Quantifier Identifier "in" Identifier "." Expression;
 
-syntax Quantifier = quantifierDef : "forall"|"exists";
+syntax Quantifier
+  = forallQ: "forall"
+  | existsQ: "exists";
 
 syntax IntLiteral = intLiteral : Number Number*;
 
