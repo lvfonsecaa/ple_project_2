@@ -40,11 +40,11 @@ data RuleDef
   = ruleDefDef(OperatorApplication lhs, OperatorApplication rhs);
 
 data OperatorApplication
-  = prefixOpApp(PrefixApplication app)
-  | infixOpApp(InfixApplication app);
+  = prefixOpApp(PrefixApplication prefixApp)
+  | infixOpApp(InfixApplication infixApp);
 
 data PrefixApplication
-  = prefixApplicationDef(str op, list[Expression] args);
+  = prefixApplicationDef(str op, list[SimpleTerm] args);
 
 data InfixApplication
   = infixApplicationDef(SimpleTerm left, InfixOperator op, SimpleTerm right);
@@ -66,7 +66,11 @@ data Expression
 
 data EquivalenceExpression
   = implicationOnly(ImplicationExpression expr)
-  | equivalenceChain(ImplicationExpression left, EquivalenceExpression right);
+  | equivalenceChain(ImplicationExpression left, EquivalenceOp op, EquivalenceExpression right);
+
+data EquivalenceOp
+  = asciiEquiv()
+  | unicodeEquiv();
 
 data ImplicationExpression
   = orOnly(OrExpression expr)

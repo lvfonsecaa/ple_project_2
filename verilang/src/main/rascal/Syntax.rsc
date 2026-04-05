@@ -52,7 +52,7 @@ syntax OperatorApplication
 
 syntax PrefixApplication = prefixApplicationDef : "(" Identifier ArgumentList ")";
 
-syntax ArgumentList = argumentListDef : Expression+;
+syntax ArgumentList = argumentListDef : SimpleTerm+;
 
 syntax InfixApplication = infixApplicationDef : SimpleTerm InfixOperator SimpleTerm;
 
@@ -70,7 +70,11 @@ syntax Expression
 
 syntax EquivalenceExpression
   = implicationOnly: ImplicationExpression
-  | equivalenceChain: ImplicationExpression "===" EquivalenceExpression;
+  | equivalenceChain: ImplicationExpression EquivalenceOp EquivalenceExpression;
+
+syntax EquivalenceOp
+  = asciiEquiv: "==="
+  | unicodeEquiv: "≡";
 
 syntax ImplicationExpression
   = orOnly: OrExpression
@@ -107,6 +111,7 @@ syntax FloatLiteral = floatLiteralDef : Number Number* "." Number Number*;
 
 lexical Number = [0-9];
 
-lexical CharLiteral = [a-z];
+lexical CharLiteral = [a-zA-Z∅];
 
-lexical Identifier = CharLiteral (CharLiteral|Number|"-")*;
+lexical Identifier
+  = [a-zA-Z∅] [a-zA-Z0-9\-∅]* !>> [a-zA-Z0-9\-∅];

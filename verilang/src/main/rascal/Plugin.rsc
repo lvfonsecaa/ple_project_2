@@ -8,9 +8,7 @@ import Syntax;
 PathConfig pcfg = getProjectPathConfig(|project://verilang|);
 
 set[LanguageService] contribs() = {
-  parser(start[Module] (str program, loc src) {
-    return parse(#start[Module], program, src);
-  })
+  parsing(ParseTree::parser(#start[Module]))
 };
 
 void main() {
